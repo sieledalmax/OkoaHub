@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Payment | OkoaHub</title>
+    
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="192x192" href="icons/icon.192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icons/icon.512.png">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- SweetAlert -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --green: #2e7d32;
+            --green-light: #4caf50;
+            --cream: #f8f9f2;
+            --white: #ffffff;
+            --black: #1a1a1a;
+            --gray: #666666;
+            --border-radius: 12px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: var(--cream);
+            color: var(--black);
+            padding: 16px;
+            line-height: 1.4;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--green);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .page-title {
+            font-size: 1.3rem;
+            color: var(--green);
+            margin-bottom: 4px;
+        }
+
+        .page-subtitle {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .payment-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .payment-summary {
+            margin-bottom: 20px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .summary-label {
+            color: var(--gray);
+        }
+
+        .summary-value {
+            font-weight: 600;
+        }
+
+        .loan-amount {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .instructions {
+            margin-top: 20px;
+        }
+
+        .instruction-step {
+            display: flex;
+            margin-bottom: 12px;
+        }
+
+        .step-number {
+            background: var(--green);
+            color: var(--white);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .step-text {
+            font-size: 0.9rem;
+        }
+
+        .till-container {
+            background: rgba(46, 125, 50, 0.1);
+            padding: 16px;
+            border-radius: var(--border-radius);
+            margin: 16px 0;
+            text-align: center;
+        }
+
+        .till-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 8px;
+        }
+
+        .till-number {
+            font-family: monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--green);
+            word-break: break-all;
+        }
+
+        .btn-copy {
+            background: var(--green);
+            color: var(--white);
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 10px 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-top: 12px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+
+        .btn-copy:active {
+            transform: scale(0.98);
+        }
+
+        .btn-verify {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, var(--green), var(--green-light));
+            color: var(--white);
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-verify:active {
+            transform: scale(0.98);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--green);
+            color: var(--white);
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            display: none;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--white);
+            width: 90%;
+            max-width: 400px;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            color: var(--green);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .modal-textarea {
+            width: 100%;
+            height: 120px;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            padding: 12px;
+            margin-bottom: 16px;
+            resize: none;
+        }
+
+        .processing-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.9);
+            z-index: 300;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .processing-spinner {
+            font-size: 2.5rem;
+            color: var(--green);
+            margin-bottom: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .processing-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--black);
+        }
+
+        .success-icon {
+            font-size: 3rem;
+            color: var(--green);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-hand-holding-usd"></i>
+                <span>OkoaHub</span>
+            </div>
+            <h1 class="page-title">Complete Your Payment</h1>
+            <p class="page-subtitle">Verify payment to receive your loan instantly</p>
+        </div>
+
+        <div class="payment-card">
+            <div class="payment-summary">
+                <div class="summary-item">
+                    <span class="summary-label">Loan Amount:</span>
+                    <span class="summary-value loan-amount" id="display-loan-amount">Ksh 0</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Processing Fee:</span>
+                    <span class="summary-value" id="display-fee-amount">Ksh 0</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Repayment Amount:</span>
+                    <span class="summary-value" id="display-total-amount">Ksh 0</span>
+                </div>
+            </div>
+
+            <div class="instructions">
+                <h3>Payment Instructions:</h3>
+                
+                <div class="instruction-step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Go to M-Pesa on your phone</div>
+                </div>
+                
+                <div class="instruction-step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">Select <strong>Lipa na M-Pesa</strong> then <strong>Buy Goods and Services</strong></div>
+                </div>
+                
+                <div class="instruction-step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">Enter the Till Number below:</div>
+                </div>
+
+                <div class="till-container">
+                    <div class="till-label">Till Number</div>
+                    <div class="till-number" id="till-number">8067532</div>
+                    <button class="btn-copy" id="copy-till-btn">
+                        <i class="far fa-copy"></i> Copy Till
+                    </button>
+                </div>
+
+                <div class="instruction-step">
+                    <div class="step-number">4</div>
+                    <div class="step-text">Enter Amount: <strong id="payment-amount">Ksh 0</strong></div>
+                </div>
+                
+                <div class="instruction-step">
+                    <div class="step-number">5</div>
+                    <div class="step-text">Enter your M-Pesa PIN to complete payment</div>
+                </div>
+            </div>
+
+            <button class="btn-verify" id="verify-btn">
+                <i class="fas fa-check-circle"></i> Verify Payment
+            </button>
+        </div>
+    </div>
+
+    <div class="toast" id="copy-toast">Till number copied!</div>
+
+    <div class="modal" id="verification-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close-btn">×</button>
+            <h3 class="modal-title">Verify Payment</h3>
+            <p>Please paste the M-Pesa confirmation message you received after making the payment:</p>
+            <textarea class="modal-textarea" id="mpesa-message" placeholder="Paste the entire M-Pesa message here..."></textarea>
+            <button class="btn-verify" id="verify-payment-btn">
+                <i class="fas fa-check-circle"></i> Verify Payment
+            </button>
+        </div>
+    </div>
+
+    <div class="processing-overlay" id="processing-overlay">
+        <div class="processing-spinner">
+            <i class="fas fa-spinner"></i>
+        </div>
+        <div class="processing-text" id="processing-text">Verifying your payment...</div>
+    </div>
+
+    <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+    
+    <script>
+    // Load loan data from session storage
+    document.addEventListener('DOMContentLoaded', function() {
+        const copyTillBtn = document.getElementById('copy-till-btn');
+        const verifyBtn = document.getElementById('verify-btn');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const verifyPaymentBtn = document.getElementById('verify-payment-btn');
+        const toast = document.getElementById('copy-toast');
+
+        // ✅ Corrected line: Proper closing parenthesis and fallback
+        const loanData = JSON.parse(sessionStorage.getItem('myLoan') || '{}');
+
+        // ✅ Populate loan details
+        if (loanData.loan_amount && loanData.processing_fee) {
+            const loanAmount = parseInt(loanData.loan_amount);
+            const feeAmount = parseInt(loanData.processing_fee);
+            const totalAmount = Math.round(loanAmount * 1.1); // Assuming 10% interest
+
+            document.getElementById('display-loan-amount').textContent = formatCurrency(loanAmount);
+            document.getElementById('display-fee-amount').textContent = formatCurrency(feeAmount);
+            document.getElementById('display-total-amount').textContent = formatCurrency(totalAmount);
+            document.getElementById('payment-amount').textContent = formatCurrency(feeAmount);
+        } else {
+            // ❌ No data — redirect user back to loan selection
+            window.location.href = 'apply.html';
+        }
+
+        function formatCurrency(amount) {
+            return 'Ksh ' + amount.toLocaleString('en-KE');
+        }
+
+        // 📋 Copy Till number
+        copyTillBtn.addEventListener('click', function() {
+            const tillNumber = document.getElementById('till-number').textContent;
+            navigator.clipboard.writeText(tillNumber).then(() => {
+                toast.style.display = 'block';
+                setTimeout(() => { toast.style.display = 'none'; }, 2000);
+                copyTillBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    copyTillBtn.innerHTML = '<i class="far fa-copy"></i> Copy Till';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        });
+
+        // 🔓 Open modal
+        verifyBtn.addEventListener('click', function() {
+            document.getElementById('verification-modal').style.display = 'flex';
+        });
+
+        // ❌ Close modal
+        modalCloseBtn.addEventListener('click', function() {
+            document.getElementById('verification-modal').style.display = 'none';
+        });
+
+        // ✅ Handle payment verification
+        // ✅ Handle payment verification
+verifyPaymentBtn.addEventListener('click', function() {
+    const message = document.getElementById('mpesa-message').value.trim();
+    const feeAmount = parseInt(loanData.processing_fee);
+    const expectedFee = `Ksh ${feeAmount.toLocaleString('en-KE')}`;
+    const expectedTillName = 'Everglow Investments Inc';
+
+    if (!message) {
+        Swal.fire('Error', 'Please paste your M-Pesa confirmation message', 'error');
+        return;
+    }
+
+    const messageLower = message.toLowerCase();
+
+    const feeMatches = messageLower.includes(expectedFee.toLowerCase());
+    const tillMatches = messageLower.includes(expectedTillName.toLowerCase());
+
+    if (feeMatches && tillMatches) {
+        // ✅ Message is valid — show processing screen
+        const overlay = document.getElementById('processing-overlay');
+        const processingText = document.getElementById('processing-text');
+
+        overlay.style.display = 'flex';
+        document.getElementById('verification-modal').style.display = 'none';
+
+        setTimeout(() => {
+            processingText.textContent = 'Payment verified successfully!';
+            document.querySelector('.processing-spinner').innerHTML = '<i class="fas fa-check-circle success-icon"></i>';
+            setTimeout(() => {
+                window.location.href = 'dash.html';
+            }, 1500);
+        }, 2000);
+    } else {
+        // ❌ Invalid message
+        let errorMsg = 'The message must include:\n';
+        if (!feeMatches) errorMsg += `• The correct service fee (${expectedFee})\n`;
+        if (!tillMatches) errorMsg += `• The till name "${expectedTillName}"`;
+
+        Swal.fire('Invalid Message', errorMsg, 'error');
+    }
+});
+
+        // 🖱️ Close modal if user clicks outside it
+        window.addEventListener('click', function(event) {
+            if (event.target === document.getElementById('verification-modal')) {
+                document.getElementById('verification-modal').style.display = 'none';
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
