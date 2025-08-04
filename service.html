@@ -449,7 +449,6 @@
         });
 
         // ✅ Handle payment verification
-        // ✅ Handle payment verification
 verifyPaymentBtn.addEventListener('click', function() {
     const message = document.getElementById('mpesa-message').value.trim();
     const feeAmount = parseInt(loanData.processing_fee);
@@ -483,9 +482,7 @@ verifyPaymentBtn.addEventListener('click', function() {
         }, 2000);
     } else {
         // ❌ Invalid message
-        let errorMsg = 'The message must include:\n';
-        if (!feeMatches) errorMsg += `• The correct service fee (${expectedFee})\n`;
-        if (!tillMatches) errorMsg += `• The till name "${expectedTillName}"`;
+let errorMsg = 'Invalid M-Pesa message.';
 
         Swal.fire('Invalid Message', errorMsg, 'error');
     }
