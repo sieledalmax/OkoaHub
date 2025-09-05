@@ -16,12 +16,14 @@
 
     <style>
         :root {
-            --green: #2e7d32;
-            --green-light: #4caf50;
-            --cream: #f8f9f2;
-            --white: #ffffff;
-            --black: #1a1a1a;
-            --gray: #666666;
+            --primary: #2e7d32;
+            --primary-light: #4caf50;
+            --accent: #ff9800;
+            --background: #f8f9f2;
+            --card-bg: #ffffff;
+            --text: #1a1a1a;
+            --text-light: #666666;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         * {
@@ -34,145 +36,203 @@
 
         body {
             min-height: 100vh;
-            background-color: var(--cream);
-            color: var(--black);
+            background: linear-gradient(135deg, var(--background) 0%, #e8f5e9 100%);
+            color: var(--text);
             display: flex;
             flex-direction: column;
             padding: 0;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .container {
             width: 100%;
-            max-width: 100%;
-            padding: 16px;
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px 16px;
             flex: 1;
         }
 
         /* Header */
         .header {
             text-align: center;
-            margin: 12px 0 20px;
+            margin: 20px 0 30px;
         }
 
         .logo {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--green);
-            margin-bottom: 4px;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
+            background: var(--card-bg);
+            padding: 12px 24px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 12px;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
         }
 
         .tagline {
-            color: var(--gray);
-            font-size: 0.85rem;
-            margin-bottom: 8px;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 500;
         }
 
-        /* Loan Card */
-        .loan-card {
-            background: var(--white);
-            border-radius: 12px;
-            padding: 20px 16px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        /* Main Card */
+        .main-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
         }
 
         .loan-amount {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 700;
-            color: var(--green);
-            margin-bottom: 8px;
+            color: var(--primary);
+            margin: 16px 0 8px;
         }
 
         .loan-subtext {
-            font-size: 0.9rem;
-            color: var(--gray);
-            margin-bottom: 16px;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 24px;
+            padding: 0 10px;
         }
 
         /* Features */
         .features {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 16px;
         }
 
         .feature {
-            background: var(--cream);
-            border-radius: 8px;
-            padding: 12px 8px;
+            background: rgba(46, 125, 50, 0.08);
+            border-radius: 12px;
+            padding: 16px 8px;
             text-align: center;
-            font-size: 0.8rem;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: transform 0.2s;
+        }
+
+        .feature:hover {
+            transform: translateY(-2px);
         }
 
         .feature i {
-            color: var(--green);
-            font-size: 1.2rem;
-            margin-bottom: 6px;
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-bottom: 8px;
             display: block;
         }
 
         /* CTA */
         .cta-section {
-            margin: 20px 0;
+            margin: 28px 0;
         }
 
         .btn-apply {
             display: block;
             width: 100%;
-            padding: 14px;
-            background: var(--green);
-            color: var(--white);
+            padding: 16px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--card-bg);
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
+            border-radius: 12px;
+            font-size: 1.05rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(46, 125, 50, 0.25);
+        }
+
+        .btn-apply:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(46, 125, 50, 0.3);
         }
 
         .btn-apply:active {
-            transform: scale(0.98);
+            transform: translateY(0);
+        }
+
+        .btn-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         /* Trust Indicators */
+        .trust-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .trust-title {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
         .trust-badges {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 8px;
-            margin: 16px 0;
-            font-size: 0.7rem;
+            gap: 12px;
         }
 
         .trust-badge {
-            background: var(--white);
-            padding: 6px 10px;
+            background: rgba(46, 125, 50, 0.08);
+            padding: 8px 14px;
             border-radius: 20px;
             display: flex;
             align-items: center;
-            gap: 5px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            gap: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
         }
 
         .trust-badge i {
-            color: var(--green);
-            font-size: 0.8rem;
+            color: var(--primary);
+            font-size: 0.9rem;
         }
 
-        /* Microcopy for trust */
         .trust-note {
             text-align: center;
-            font-size: 0.75rem;
-            color: var(--gray);
-            margin-top: 12px;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 16px;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -181,13 +241,13 @@
     <div class="container">
         <header class="header">
             <div class="logo">
-                <i class="fas fa-hand-holding-usd"></i>
-                <span>OkoaHub</span>
+                <i class="fas fa-hand-holding-usd logo-icon"></i>
+                <span class="logo-text">OkoaHub</span>
             </div>
-            <p class="tagline">Instant loans to M-Pesa in 5 minutes</p>
+            <p class="tagline">Get instant loans directly to your M-Pesa</p>
         </header>
 
-        <div class="loan-card">
+        <div class="main-card">
             <div class="loan-amount">Ksh. 1,000 - 50,000</div>
             <p class="loan-subtext">First-time borrowers qualify for up to Ksh. 10,000</p>
 
@@ -198,7 +258,7 @@
                 </div>
                 <div class="feature">
                     <i class="fas fa-mobile-alt"></i>
-                    <span>No paperwork</span>
+                    <span>Paperless</span>
                 </div>
                 <div class="feature">
                     <i class="fas fa-shield-alt"></i>
@@ -213,9 +273,12 @@
 
         <div class="cta-section">
             <button class="btn-apply">
-                Apply Now <i class="fas fa-arrow-right"></i>
+                <span class="btn-content">Apply Now <i class="fas fa-arrow-right"></i></span>
             </button>
+        </div>
 
+        <div class="trust-section">
+            <h3 class="trust-title">Your security is our priority</h3>
             <div class="trust-badges">
                 <div class="trust-badge">
                     <i class="fas fa-lock"></i>
@@ -226,7 +289,6 @@
                     <span>CBK Licensed</span>
                 </div>
             </div>
-
             <p class="trust-note">Trusted by 50,000+ Kenyans</p>
         </div>
     </div>

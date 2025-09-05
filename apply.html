@@ -66,6 +66,42 @@
             font-weight: 600;
         }
 
+        /* News Ticker Styles */
+        .news-ticker {
+            background-color: rgba(46, 125, 50, 0.1);
+            border-radius: var(--border-radius);
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            position: relative;
+            min-height: 60px;
+        }
+
+        .ticker-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            color: var(--green);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .ticker-header i {
+            margin-right: 8px;
+        }
+
+        .ticker-message {
+            font-size: 0.85rem;
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .ticker-message.active {
+            opacity: 1;
+        }
+
         .loan-card {
             background: var(--white);
             border-radius: var(--border-radius);
@@ -198,35 +234,72 @@
             </p>
         </div>
 
+        <!-- News Ticker -->
+        <div class="news-ticker">
+            <div class="ticker-header">
+                <i class="fas fa-bullhorn"></i>
+                <span>Recent Loans</span>
+            </div>
+            <div id="ticker-container">
+                <!-- Ticker messages will be inserted here by JavaScript -->
+            </div>
+        </div>
+
         <div class="loan-card">
-            <h3 class="card-title">Select Your Loan Amount</h3>
-            <div class="loan-grid">
+  <h3 class="card-title">Select Your Loan Amount</h3>
+  <div class="loan-grid">
+    
                 <div class="loan-option" onclick="selectLoanOption(this, 5500, 50)">
                     <div class="loan-amount">Ksh 5,500</div>
                     <div class="processing-fee">Fee: Ksh 50</div>
                 </div>
-                <div class="loan-option" onclick="selectLoanOption(this, 7800, 80)">
+                <div class="loan-option" onclick="selectLoanOption(this, 7800, 120)">
                     <div class="loan-amount">Ksh 7,800</div>
                     <div class="processing-fee">Fee: Ksh 80</div>
                 </div>
-                <div class="loan-option" onclick="selectLoanOption(this, 9800, 100)">
+                <div class="loan-option" onclick="selectLoanOption(this, 9800, 140)">
                     <div class="loan-amount">Ksh 9,800</div>
-                    <div class="processing-fee">Fee: Ksh 100</div>
+                    <div class="processing-fee">Fee: Ksh 110</div>
                 </div>
-                <div class="loan-option" onclick="selectLoanOption(this, 11200, 120)">
+                <div class="loan-option" onclick="selectLoanOption(this, 11200, 180)">
                     <div class="loan-amount">Ksh 11,200</div>
-                    <div class="processing-fee">Fee: Ksh 120</div>
-                </div>
-                <div class="loan-option" onclick="selectLoanOption(this, 16800, 150)">
-                    <div class="loan-amount">Ksh 16,800</div>
                     <div class="processing-fee">Fee: Ksh 150</div>
                 </div>
-                <div class="loan-option" onclick="selectLoanOption(this, 21200, 180)">
-                    <div class="loan-amount">Ksh 21,200</div>
+                <div class="loan-option" onclick="selectLoanOption(this, 16800, 200)">
+                    <div class="loan-amount">Ksh 16,800</div>
                     <div class="processing-fee">Fee: Ksh 180</div>
                 </div>
+                <div class="loan-option" onclick="selectLoanOption(this, 21200, 220)">
+                    <div class="loan-amount">Ksh 21,200</div>
+                    <div class="processing-fee">Fee: Ksh 220</div>
+                </div>
+                <div class="loan-option" onclick="selectLoanOption(this, 25600, 350)">
+                    <div class="loan-amount">Ksh 25,600</div>
+                    <div class="processing-fee">Fee: Ksh 350</div>
+                </div>
+                <div class="loan-option" onclick="selectLoanOption(this, 30000, 420)">
+                    <div class="loan-amount">Ksh 30,000</div>
+                    <div class="processing-fee">Fee: Ksh 420</div>
+                </div>
+                <div class="loan-option" onclick="selectLoanOption(this, 35400, 540)">
+                    <div class="loan-amount">Ksh 35,400</div>
+                    <div class="processing-fee">Fee: Ksh 540</div>
+                </div>
+                <div class="loan-option" onclick="selectLoanOption(this, 39800, 680)">
+                    <div class="loan-amount">Ksh 39,800</div>
+                    <div class="processing-fee">Fee: Ksh 680</div>
+                </div>
+                <div class="loan-option" onclick="selectLoanOption(this, 44200, 960)">
+                    <div class="loan-amount">Ksh 44,200</div>
+                    <div class="processing-fee">Fee: Ksh 960</div>
+                </div>
+                <div class="loan-option" onclick="selectLoanOption(this, 48600, 1550)">
+                    <div class="loan-amount">Ksh 48,600</div>
+                    <div class="processing-fee">Fee: Ksh 1550</div>
+                </div>
             </div>
-        </div>
+</div>
+
 
         <button id="apply-btn" class="btn-apply" disabled>
             Get Loan Now <i class="fas fa-arrow-right"></i>
@@ -235,7 +308,7 @@
 
         <div class="app-promo" id="app-promo">
             <p class="app-promo-text">For loans up to Ksh 80,000, download our app:</p>
-            <a href="https://play.google.com/store/apps/details?id=com.punksmoothheat.okoahub" target="_blank" class="btn-download">
+            <a href="https://play.google.com/store/apps/details?id=com.punksmoothheat.OkoaHub" target="_blank" class="btn-download">
                 <i class="fab fa-google-play"></i> Download App
             </a>
         </div>
@@ -249,7 +322,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
     
     <script>
-        // Load user data
         const userData = JSON.parse(sessionStorage.getItem('myLoan') || '{}');
         if (!userData.phone_number) {
             window.location.href = 'eligibility.html';
@@ -259,23 +331,78 @@
 
         let selectedLoan = null;
 
+        const tickerMessages = [
+    "0721****77 loaned Ksh 15,000 — just now",
+    "0723****12 loaned Ksh 9,500 — 2 mins ago",
+    "0710****90 loaned Ksh 4,200 — 1 min ago",
+    "0725****89 loaned Ksh 18,000 — just now",
+    "0722****33 loaned Ksh 5,600 — 3 mins ago",
+    "0728****01 loaned Ksh 21,300 — just now",
+    "0711****45 loaned Ksh 8,000 — 5 mins ago",
+    "0713****12 loaned Ksh 13,200 — 9 mins ago",
+    "0727****01 loaned Ksh 22,500 — 7 mins ago",
+    "0706****78 loaned Ksh 16,400 — just now",
+    "0729****78 loaned Ksh 14,800 — 4 mins ago",
+    "0711****67 loaned Ksh 25,000 — just now",
+    "0724****56 loaned Ksh 7,200 — 6 mins ago",
+    "0795****56 loaned Ksh 8,900 — 10 mins ago",
+    "0702****88 loaned Ksh 12,300 — 8 mins ago",
+    "0700****23 loaned Ksh 10,000 — 15 mins ago",
+    "0797****90 loaned Ksh 12,100 — just now",
+    "0726****34 loaned Ksh 6,750 — 5 mins ago",
+    "0714****34 loaned Ksh 19,750 — 7 mins ago",
+    "0728****45 loaned Ksh 11,250 — 3 mins ago",
+    "0729****23 loaned Ksh 9,800 — 1 min ago",
+    "0720****45 loaned Ksh 17,500 — just now",
+    "0741****67 loaned Ksh 23,000 — just now",
+    "0742****89 loaned Ksh 10,500 — 4 mins ago",
+    "0743****01 loaned Ksh 27,000 — 9 mins ago",
+    "0794****23 loaned Ksh 7,800 — 6 mins ago",
+    "0725****45 loaned Ksh 14,200 — just now",
+    "0726****67 loaned Ksh 20,000 — 8 mins ago",
+    "0717****89 loaned Ksh 11,700 — 2 mins ago",
+    "0748****01 loaned Ksh 16,800 — 10 mins ago"
+];
+
+        // Initialize ticker
+        function initTicker() {
+            const tickerContainer = document.getElementById('ticker-container');
+            
+            // Create message elements
+            tickerMessages.forEach((message, index) => {
+                const messageElement = document.createElement('div');
+                messageElement.className = 'ticker-message';
+                messageElement.textContent = message;
+                messageElement.dataset.index = index;
+                tickerContainer.appendChild(messageElement);
+            });
+            
+            // Show first message
+            const messages = document.querySelectorAll('.ticker-message');
+            if (messages.length > 0) {
+                messages[0].classList.add('active');
+            }
+            
+            // Rotate messages every 2 seconds
+            let currentIndex = 0;
+            setInterval(() => {
+                messages[currentIndex].classList.remove('active');
+                currentIndex = (currentIndex + 1) % messages.length;
+                messages[currentIndex].classList.add('active');
+            }, 2000);
+        }
+
+        // Call initTicker when page loads
+        window.addEventListener('load', initTicker);
+
         function selectLoanOption(element, amount, fee) {
-            // Remove selection from all options
             document.querySelectorAll('.loan-option').forEach(opt => {
                 opt.classList.remove('selected');
             });
-            
-            // Add selection to clicked option
             element.classList.add('selected');
-            
-            // Store selected loan
             selectedLoan = { amount, fee };
-            
-            // Enable apply button
             document.getElementById('apply-btn').disabled = false;
             document.getElementById('error-message').style.display = 'none';
-            
-            // Update session data
             userData.loan_amount = amount;
             userData.processing_fee = fee;
             sessionStorage.setItem('myLoan', JSON.stringify(userData));
@@ -287,7 +414,6 @@
                 return;
             }
 
-            // Show confirmation dialog
             const result = await Swal.fire({
                 title: 'Confirm Loan Application',
                 html: `
@@ -305,7 +431,6 @@
             });
 
             if (result.isConfirmed) {
-                // Show processing indicator
                 Swal.fire({
                     title: 'Processing Your Loan',
                     html: 'Please wait while we process your application...',
@@ -313,18 +438,14 @@
                     didOpen: () => Swal.showLoading()
                 });
 
-                // Simulate processing delay
                 setTimeout(() => {
                     Swal.close();
-                    
-                    // Show app promo after successful application
                     document.getElementById('app-promo').style.display = 'block';
-                    
-                    // Redirect to service page
                     window.location.href = 'service.html';
                 }, 2000);
             }
         });
     </script>
 </body>
+
 </html>
