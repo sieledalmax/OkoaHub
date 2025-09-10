@@ -237,7 +237,7 @@
     <script>
     const nameRegex = /^[a-zA-Z\s.'-]{2,}$/;
     const phoneRegex = /^(?:\+?254|0)[17]\d{8}$/; // Updated regex for all Kenyan numbers
-    const idRegex = /^\d{7,8}$/;
+    const idRegex = /^\d{7,10}$/;
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -254,7 +254,7 @@
             return Swal.fire('Invalid Phone', 'Please enter a valid Kenyan phone number', 'error');
         }
         if (!idRegex.test(id)) {
-            return Swal.fire('Invalid ID', 'Please enter a valid Kenyan ID (7-8 digits)', 'error');
+            return Swal.fire('Invalid ID', 'Please enter a valid Kenyan ID (7-10 digits)', 'error');
         }
         if (!type) {
             return Swal.fire('Missing Loan Type', 'Please select your loan purpose', 'error');
