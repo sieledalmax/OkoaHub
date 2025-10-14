@@ -1,3 +1,9 @@
+console.log('Loaded credentials:', {
+  username: process.env.PAYHERO_USERNAME ? '✅ Loaded' : '❌ Missing',
+  password: process.env.PAYHERO_PASSWORD ? '✅ Loaded' : '❌ Missing',
+  channel: process.env.PAYHERO_CHANNEL_ID || '❌ Missing'
+});
+
 // api/initiate-payment.js
 export default async function handler(req, res) {
   // Only allow POST requests
