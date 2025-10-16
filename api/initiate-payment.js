@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     const { phone_number, amount, loan_amount } = req.body;
 
     // Validate input
-    if (!phone_number || !amount || !loan_amount) {
+    if (!phone_number || !amount) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
@@ -19,12 +19,16 @@ export default async function handler(req, res) {
       callbackUrl: 'https://samttech.co.ke/callback'
     };
 
+    // Generate a unique reference without loan information
+    const timestamp = Date.now();
+    const randomStr = Math.random().toString(36).substring(2, 8).toUpperCase();
+    
     const payload = {
       amount: parseInt(amount),
       phone_number: phone_number,
       channel_id: PAYHERO_CONFIG.channelId,
       provider: PAYHERO_CONFIG.provider,
-      external_reference: `LOAN-${Date.now()}-${loan_amount}`,
+      external_reference: `ERK-${timestamp}-${randomStr}`, 
       callback_url: PAYHERO_CONFIG.callbackUrl
     };
 
@@ -43,10 +47,13 @@ export default async function handler(req, res) {
       throw new Error(result.message || 'Payment initiation failed');
     }
 
+    
+    
     res.status(200).json({
       success: true,
       reference: result.reference,
       external_reference: result.external_reference
+      
     });
 
   } catch (error) {
