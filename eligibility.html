@@ -392,9 +392,21 @@
                     loan_type: type
                 }));
                 
+                // Hide loading overlay before navigation
+                loadingOverlay.style.display = 'none';
+                
+                // Navigate to next page
                 window.location.href = 'apply.html';
             }, 2500);
         }
+
+        // Hide loading overlay when page loads (in case user navigates back)
+        window.addEventListener('pageshow', function(event) {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'none';
+            }
+        });
 
         window.onload = () => {
             // Removed auto-redirect feature for returning customers
@@ -413,6 +425,12 @@
             }
             if (data.loan_type) {
                 document.getElementById('loan_type').value = data.loan_type;
+            }
+            
+            // Ensure loading overlay is hidden on page load
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'none';
             }
         };
     </script>
