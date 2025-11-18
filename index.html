@@ -39,6 +39,7 @@
             color: var(--text);
             display: flex;
             flex-direction: column;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
         }
 
         .container {
@@ -89,6 +90,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            width: 100%;
         }
 
         /* Subtle Kenyan stripe */
@@ -140,6 +142,7 @@
         /* ---------------- CTA BUTTON ---------------- */
         .cta-section {
             margin: 28px 0;
+            width: 100%;
         }
 
         .btn-apply {
@@ -169,6 +172,7 @@
             border-radius: 16px;
             padding: 20px;
             box-shadow: var(--shadow);
+            width: 100%;
         }
 
         .trust-title {
@@ -180,25 +184,29 @@
         }
 
         .trust-badges {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
         }
 
         .trust-badge {
             background: rgba(0, 128, 55, 0.07);
-            padding: 10px 16px;
+            padding: 10px 8px;
             border-radius: 20px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.8rem;
+            justify-content: center;
+            gap: 6px;
+            font-size: 0.75rem;
             font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
         }
 
         .trust-badge i {
             color: var(--primary);
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
         .trust-note {
@@ -207,6 +215,35 @@
             color: var(--text-light);
             margin-top: 16px;
             font-weight: 500;
+        }
+
+        /* Responsive adjustments for very narrow screens */
+        @media (max-width: 360px) {
+            .container {
+                padding: 16px 12px;
+            }
+            
+            .main-card {
+                padding: 20px 16px;
+            }
+            
+            .loan-amount {
+                font-size: 1.7rem;
+            }
+            
+            .features {
+                gap: 8px;
+            }
+            
+            .feature {
+                padding: 12px 6px;
+                font-size: 0.8rem;
+            }
+            
+            .trust-badge {
+                font-size: 0.7rem;
+                padding: 8px 6px;
+            }
         }
     </style>
 </head>
@@ -273,6 +310,16 @@
                 <div class="trust-badge">
                     <i class="fas fa-certificate"></i>
                     <span>Licensed Program</span>
+                </div>
+                
+                <div class="trust-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Data Protected</span>
+                </div>
+                
+                <div class="trust-badge">
+                    <i class="fas fa-users"></i>
+                    <span>Trusted</span>
                 </div>
             </div>
 

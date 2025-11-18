@@ -279,12 +279,12 @@
                 return Swal.fire('Missing Loan Type', 'Please select your loan purpose', 'error');
             }
 
-            sessionStorage.setItem('myLoan', JSON.stringify({
+            /*sessionStorage.setItem('myLoan', JSON.stringify({
                 name,
                 phone_number: phone,
                 id_number: id,
                 loan_type: type
-            }));
+            }));*/
 
             Swal.fire({
                 title: 'Checking Eligibility...',
