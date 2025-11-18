@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OkoaHub | Instant M-Pesa Loans</title>
+    <title>NYOTA | Youth Opportunities</title>
 
     <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="192x192" href="icons/icon.192.png">
@@ -16,9 +16,9 @@
 
     <style>
         :root {
-            --primary: #2e7d32;
+            --primary: #008037;       /* NYOTA Green */
             --primary-light: #4caf50;
-            --accent: #ff9800;
+            --accent: #d32f2f;        /* NYOTA Red */
             --background: #f8f9f2;
             --card-bg: #ffffff;
             --text: #1a1a1a;
@@ -31,7 +31,6 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -40,8 +39,6 @@
             color: var(--text);
             display: flex;
             flex-direction: column;
-            padding: 0;
-            line-height: 1.5;
         }
 
         .container {
@@ -52,7 +49,7 @@
             flex: 1;
         }
 
-        /* Header */
+        /* ---------------- HEADER ---------------- */
         .header {
             text-align: center;
             margin: 20px 0 30px;
@@ -62,32 +59,27 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
             background: var(--card-bg);
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 16px;
             box-shadow: var(--shadow);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
-        .logo-icon {
-            color: var(--primary);
-            font-size: 1.8rem;
-        }
-
-        .logo-text {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--primary);
+        .logo-img {
+            height: 55px;  
+            width: auto;
+            object-fit: contain;
         }
 
         .tagline {
             color: var(--text-light);
             font-size: 0.95rem;
             font-weight: 500;
+            margin-top: 5px;
         }
 
-        /* Main Card */
+        /* ---------------- MAIN CARD ---------------- */
         .main-card {
             background: var(--card-bg);
             border-radius: 20px;
@@ -99,6 +91,7 @@
             overflow: hidden;
         }
 
+        /* Subtle Kenyan stripe */
         .main-card::before {
             content: '';
             position: absolute;
@@ -106,7 +99,7 @@
             left: 0;
             right: 0;
             height: 6px;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+            background: linear-gradient(90deg, black 0%, red 33%, green 66%, var(--primary-light) 100%);
         }
 
         .loan-amount {
@@ -120,10 +113,8 @@
             font-size: 0.95rem;
             color: var(--text-light);
             margin-bottom: 24px;
-            padding: 0 10px;
         }
 
-        /* Features */
         .features {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -132,27 +123,21 @@
         }
 
         .feature {
-            background: rgba(46, 125, 50, 0.08);
+            background: rgba(0, 128, 55, 0.07);
             border-radius: 12px;
             padding: 16px 8px;
             text-align: center;
             font-size: 0.85rem;
             font-weight: 500;
-            transition: transform 0.2s;
-        }
-
-        .feature:hover {
-            transform: translateY(-2px);
         }
 
         .feature i {
             color: var(--primary);
             font-size: 1.4rem;
             margin-bottom: 8px;
-            display: block;
         }
 
-        /* CTA */
+        /* ---------------- CTA BUTTON ---------------- */
         .cta-section {
             margin: 28px 0;
         }
@@ -168,17 +153,7 @@
             font-size: 1.05rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 8px rgba(46, 125, 50, 0.25);
-        }
-
-        .btn-apply:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(46, 125, 50, 0.3);
-        }
-
-        .btn-apply:active {
-            transform: translateY(0);
+            box-shadow: 0 4px 8px rgba(0, 128, 55, 0.25);
         }
 
         .btn-content {
@@ -188,7 +163,7 @@
             gap: 8px;
         }
 
-        /* Trust Indicators */
+        /* ---------------- TRUST SECTION ---------------- */
         .trust-section {
             background: var(--card-bg);
             border-radius: 16px;
@@ -207,24 +182,23 @@
         .trust-badges {
             display: flex;
             justify-content: center;
-            flex-wrap: wrap;
             gap: 12px;
         }
 
         .trust-badge {
-            background: rgba(46, 125, 50, 0.08);
-            padding: 8px 14px;
+            background: rgba(0, 128, 55, 0.07);
+            padding: 10px 16px;
             border-radius: 20px;
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 0.75rem;
+            gap: 8px;
+            font-size: 0.8rem;
             font-weight: 500;
         }
 
         .trust-badge i {
             color: var(--primary);
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
 
         .trust-note {
@@ -238,67 +212,81 @@
 </head>
 
 <body>
+
     <div class="container">
+
+        <!-- HEADER -->
         <header class="header">
             <div class="logo">
-                <i class="fas fa-hand-holding-usd logo-icon"></i>
-                <span class="logo-text">OkoaHub</span>
+                <img src="icons/logo.png" alt="NYOTA Logo" class="logo-img">
             </div>
-            <p class="tagline">Get instant loans directly to your M-Pesa</p>
+            <p class="tagline">Kuza, Imarisha, Endeleza Vijana!</p>
         </header>
 
+        <!-- MAIN CARD -->
         <div class="main-card">
             <div class="loan-amount">Ksh. 1,000 - 50,000</div>
-            <p class="loan-subtext">First-time borrowers qualify for up to Ksh. 10,000</p>
+            <p class="loan-subtext">Youth empowerment financing available nationwide</p>
 
             <div class="features">
                 <div class="feature">
                     <i class="fas fa-bolt"></i>
-                    <span>5-min approval</span>
+                    <span>Fast approval</span>
                 </div>
+
                 <div class="feature">
                     <i class="fas fa-mobile-alt"></i>
                     <span>Paperless</span>
                 </div>
+
                 <div class="feature">
                     <i class="fas fa-shield-alt"></i>
                     <span>Secure</span>
                 </div>
+
                 <div class="feature">
                     <i class="fas fa-user-check"></i>
-                    <span>No guarantors</span>
+                    <span>Youth-focused</span>
                 </div>
             </div>
         </div>
 
+        <!-- CTA -->
         <div class="cta-section">
             <button class="btn-apply">
-                <span class="btn-content">Apply Now <i class="fas fa-arrow-right"></i></span>
+                <span class="btn-content">
+                    Apply Now <i class="fas fa-arrow-right"></i>
+                </span>
             </button>
         </div>
 
+        <!-- TRUST SECTION -->
         <div class="trust-section">
             <h3 class="trust-title">Your security is our priority</h3>
+
             <div class="trust-badges">
                 <div class="trust-badge">
                     <i class="fas fa-lock"></i>
                     <span>SSL Secured</span>
                 </div>
+
                 <div class="trust-badge">
                     <i class="fas fa-certificate"></i>
-                    <span>CBK Licensed</span>
+                    <span>Licensed Program</span>
                 </div>
             </div>
-            <p class="trust-note">Trusted by 50,000+ Kenyans</p>
+
+            <p class="trust-note">Empowering thousands of Kenyan youth</p>
         </div>
+
     </div>
 
     <script>
-        // Simple button interaction
-        document.querySelector('.btn-apply').addEventListener('click', function () {
+        document.querySelector('.btn-apply').addEventListener('click', () => {
             window.location.href = 'eligibility.html';
         });
     </script>
+
 </body>
 
 </html>

