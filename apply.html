@@ -47,6 +47,7 @@
     .wrap{
       max-width:540px;
       margin:0 auto;
+      padding-bottom: 30px; /* Added padding at bottom */
     }
 
     /* Header / welcome */
@@ -230,7 +231,7 @@
 
     /* Responsive tweaks */
     @media (min-width: 520px){
-      .wrap{ padding:6px 0 }
+      .wrap{ padding:6px 0 30px; } /* Maintain bottom padding */
       .logo-box img{ height:52px }
     }
 
@@ -273,6 +274,103 @@
         align-items:center;
         gap:10px;
       }
+    }
+
+    /* Custom SweetAlert styling */
+    .swal2-popup {
+      border-radius: 20px !important;
+      padding: 24px !important;
+      max-width: 320px !important;
+      width: 90% !important;
+    }
+
+    .swal2-title {
+      font-size: 1.2rem !important;
+      color: var(--primary-strong) !important;
+      font-weight: 700 !important;
+      margin-bottom: 16px !important;
+    }
+
+    .swal2-html-container {
+      font-size: 0.9rem !important;
+      color: var(--text) !important;
+      line-height: 1.5 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    .swal2-confirm {
+      background: linear-gradient(90deg, var(--primary), var(--primary-strong)) !important;
+      border: none !important;
+      border-radius: 12px !important;
+      padding: 12px 24px !important;
+      font-weight: 600 !important;
+      font-size: 0.95rem !important;
+      margin-top: 16px !important;
+    }
+
+    .swal2-cancel {
+      background: #f8f9fa !important;
+      border: 1px solid #e0e0e0 !important;
+      border-radius: 12px !important;
+      padding: 12px 24px !important;
+      font-weight: 500 !important;
+      font-size: 0.95rem !important;
+      color: var(--muted) !important;
+      margin-top: 16px !important;
+    }
+
+    /* Loading overlay styles */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 16px;
+    }
+
+    .loading-popup {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 30px 24px;
+      box-shadow: var(--shadow-md);
+      text-align: center;
+      max-width: 280px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(0, 128, 55, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid var(--primary);
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .loading-subtext {
+      font-size: 0.85rem;
+      color: var(--muted);
     }
 
     /* animations */
@@ -591,25 +689,44 @@
         return;
       }
 
-      // Show confirmation dialog (modern)
+      // Show confirmation dialog (styled like loading popup)
       const confirm = await Swal.fire({
         title: 'Confirm Loan Application',
         html: `
-          <div style="text-align:left">
-            <p style="margin:0 0 8px">You are applying for:</p>
-            <p style="margin:0"><strong>Loan:</strong> ${formatKsh(selectedLoan.amount)}</p>
-            <p style="margin:0"><strong>Processing fee:</strong> ${formatKsh(selectedLoan.fee)}</p>
-            <p style="margin:0"><strong>Estimated repayment (2 months, 10%):</strong> ${formatKsh(Math.round(selectedLoan.amount * 1.10))}</p>
-            <hr style="margin:12px 0;border:none;border-top:1px dashed #eee">
-            <p style="color:var(--primary-strong);margin:0;font-weight:600">An M-Pesa prompt will be sent to pay the processing fee.</p>
-            <p style="color:var(--muted);margin:6px 0 0;font-size:0.9rem">Phone: ${userData.phone_number}</p>
+          <div style="text-align:center; padding: 0 8px;">
+            <div style="margin-bottom: 20px;">
+              <i class="fas fa-file-alt" style="font-size: 48px; color: var(--primary); margin-bottom: 12px;"></i>
+            </div>
+            <div style="text-align:left; background: #f8f9fa; padding: 16px; border-radius: 12px; margin-bottom: 16px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: var(--muted);">Loan Amount:</span>
+                <span style="font-weight: 600; color: var(--primary-strong);">${formatKsh(selectedLoan.amount)}</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: var(--muted);">Processing Fee:</span>
+                <span style="font-weight: 600;">${formatKsh(selectedLoan.fee)}</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0;">
+                <span style="color: var(--muted);">Total Repayment:</span>
+                <span style="font-weight: 600;">${formatKsh(Math.round(selectedLoan.amount * 1.10))}</span>
+              </div>
+            </div>
+            <p style="color: var(--muted); font-size: 0.85rem; margin: 0;">
+              An M-Pesa prompt will be sent to complete your application
+            </p>
+            <p style="color: var(--primary-strong); font-size: 0.8rem; margin: 8px 0 0; font-weight: 500;">
+              Phone: ${userData.phone_number}
+            </p>
           </div>
         `,
-        icon: 'question',
+        icon: false,
         showCancelButton: true,
-        confirmButtonText: 'Proceed to Payment',
+        confirmButtonText: 'Proceed with Application',
         cancelButtonText: 'Cancel',
-        confirmButtonColor: 'var(--primary)'
+        confirmButtonColor: 'var(--primary)',
+        customClass: {
+          popup: 'swal2-popup-custom'
+        }
       });
 
       if (!confirm.isConfirmed) return;
@@ -648,7 +765,7 @@
               </div>
             </div>
           `,
-          icon: 'info',
+          icon: false,
           showConfirmButton: false,
           allowOutsideClick: false
         });
@@ -667,7 +784,7 @@
                 <p style="color:var(--muted);margin-top:8px;font-size:0.92rem">Approving loan and preparing disbursement...</p>
               </div>
             `,
-            icon: 'success',
+            icon: false,
             showConfirmButton: false,
             timer: 1700
           });
@@ -693,10 +810,13 @@
         Swal.fire({
           title: 'Payment Failed',
           html: `
-            <p style="margin:0">${err.message || 'Unable to process payment. Please try again.'}</p>
-            <p style="margin-top:8px;color:var(--muted);font-size:0.92rem">Make sure your phone has network & M-Pesa is available.</p>
+            <div style="text-align:center">
+              <i class="fas fa-exclamation-triangle" style="font-size:48px;color:#f59e0b;margin-bottom:12px"></i>
+              <p style="margin:0">${err.message || 'Unable to process payment. Please try again.'}</p>
+              <p style="margin-top:8px;color:var(--muted);font-size:0.92rem">Make sure your phone has network & M-Pesa is available.</p>
+            </div>
           `,
-          icon: 'error',
+          icon: false,
           confirmButtonText: 'Try Again',
           confirmButtonColor: 'var(--primary)'
         });
