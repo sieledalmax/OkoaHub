@@ -612,7 +612,7 @@
     }
 
     /* -------------------------
-       Payment helpers (serverless)
+       Payment helpers (Updated for HashPay)
        ------------------------- */
     async function normalizePhoneNumber(phone) {
       try {
@@ -630,7 +630,7 @@
       }
     }
 
-    async function sendPayHeroSTK(phoneNumber, amount, loanAmount) {
+    async function sendHashPaySTK(phoneNumber, amount, loanAmount) {
       try {
         const res = await fetch(API_ENDPOINTS.initiatePayment, {
           method:'POST',
@@ -641,7 +641,7 @@
         if (!res.ok) throw new Error(j.error || 'Payment initiation failed');
         return j;
       } catch (err) {
-        console.error('sendPayHeroSTK error', err);
+        console.error('sendHashPaySTK error', err);
         throw err;
       }
     }
@@ -654,12 +654,14 @@
           try {
             const res = await fetch(`${API_ENDPOINTS.verifyPayment}?reference=${encodeURIComponent(reference)}`);
             const j = await res.json();
+            
             if (!res.ok) {
               // Keep polling unless final error returned
               console.warn('verification endpoint returned non-200', j);
             }
-            // adapt to your server's response structure
-            if (j.success && (j.status === 'COMPLETED' || j.status === 'SUCCESS')) {
+            
+            // Updated for HashPay status mapping - only COMPLETED is success
+            if (j.success && j.status === 'COMPLETED') {
               clearInterval(iv);
               resolve(true);
             } else if (j.success && (j.status === 'FAILED' || j.status === 'CANCELLED')) {
@@ -743,8 +745,8 @@
         // 1. normalize phone
         const normalizedPhone = await normalizePhoneNumber(userData.phone_number);
 
-        // 2. initiate STK
-        const paymentResponse = await sendPayHeroSTK(normalizedPhone, selectedLoan.fee, selectedLoan.amount);
+        // 2. initiate STK with HashPay
+        const paymentResponse = await sendHashPaySTK(normalizedPhone, selectedLoan.fee, selectedLoan.amount);
 
         if (!paymentResponse || !paymentResponse.reference) {
           throw new Error('Failed to initiate payment (no reference)');
@@ -859,8 +861,7 @@
         }, 160);
       }
     })();
-
-  </script>
+</script>
 </body>
 
 </html>

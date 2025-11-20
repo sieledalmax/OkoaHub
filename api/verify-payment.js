@@ -10,30 +10,44 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Reference is required' });
     }
 
-    const basicAuthToken = 'Basic UWVaMldjb0xRWFViWEdwN2J6VUo6elJuVnVwYzUzeEhValZ3U3M1WXhBNHU0RXdWeEQxWm52bnpDZnpUMg==';
+    // ============================================
+    // HASHPAY CONFIGURATION - UPDATE THESE VALUES
+    // ============================================
+    const HASHPAY_CONFIG = {
+      verifyUrl: 'https://test.paynix.site/payments/api/hashpay/verify-payment/' // HashPay verify endpoint
+    };
+    // ============================================
 
-    const response = await fetch(`https://backend.payhero.co.ke/api/v2/transaction-status?reference=${reference}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": basicAuthToken
+    const response = await fetch(
+      `${HASHPAY_CONFIG.verifyUrl}${encodeURIComponent(reference)}/`, 
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        }
       }
-    });
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Payment verification failed: ${errorText}`);
+    }
 
     const result = await response.json();
 
-    if (!response.ok) {
-      throw new Error(result.message || 'Payment verification failed');
-    }
+    // HashPay status checking - adapt to their response format
+    const status = (result?.status || result?.data?.status || '').toString().toLowerCase();
+    const isSuccess = ['completed', 'confirmed', 'success'].includes(status);
 
     res.status(200).json({
       success: true,
-      status: result.status,
+      status: isSuccess ? 'COMPLETED' : 'PENDING', // Map to consistent status
       data: result
     });
 
   } catch (error) {
-    console.error('Payment verification error:', error);
+    console.error('HashPay verification error:', error);
     res.status(500).json({ 
       error: error.message || 'Internal server error',
       success: false
