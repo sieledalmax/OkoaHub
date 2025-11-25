@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     // ============================================
     const HASHPAY_CONFIG = {
       apiUrl: 'https://test.paynix.site/payments/api/hashpay/stk-push/', // HashPay STK endpoint
-      platform: 'L7CP59' // ⚠️ CHANGE THIS: Your HashPay platform ID
+      platform: 'HP960345' // ⚠️ CHANGE THIS: Your HashPay platform ID
     };
     // ============================================
 
